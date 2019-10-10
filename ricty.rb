@@ -11,9 +11,9 @@ end
 
 class Ricty < Formula
   desc "Font for programming"
-  homepage "http://www.rs.tus.ac.jp/yyusa/ricty.html"
-  url "http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator-4.1.0.sh"
-  sha256 "6e2b656814ffdad5430f9c52bff89609b1350de1127f61966cdf441710ec60b3"
+  homepage "http://web.archive.org/web/20190511125027/https://www.rs.tus.ac.jp/yyusa/ricty.html"
+  url "http://web.archive.org/web/20180624203809/http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator-4.1.1.sh"
+  sha256 "86bf0fed84ef806690b213798419405d7ca2a1a4bed4f6a28b87c2e2d07ad60d"
   revision 2
 
   option "with-powerline", "Patch for Powerline"
@@ -31,7 +31,7 @@ class Ricty < Formula
   depends_on "fontforge" => :build
 
   resource "oblique_converter" do
-    url "http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
+    url "http://web.archive.org/web/20170818071224/http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
     sha256 "365c7973a02abf3970f09a557f8f93065341885f9e13570fd2e901e530c4864d"
   end
 
@@ -50,12 +50,6 @@ class Ricty < Formula
   resource "migu1mfonts" do
     url "https://osdn.jp/frs/redir.php?m=gigenet&f=%2Fmix-mplus-ipa%2F63545%2Fmigu-1m-20150712.zip"
     sha256 "d4c38664dd57bc5927abe8f4fbea8f06a8ece3fea49ea02354d4e03ac6d15006"
-  end
-
-  patch do
-    # workaround for #43 and #46
-    url "https://raw.githubusercontent.com/sanemat/homebrew-font/cb5d2304f62226e3aa821a2563d3f7278342e2fe/ricty_generator.patch"
-    sha256 "c27000c9f76d07781254e9a9122b018ad74e7bb5e7df0c0961251b43f00c9b26"
   end
 
   def install

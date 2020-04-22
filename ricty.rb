@@ -11,29 +11,16 @@ end
 
 class Ricty < Formula
   desc "Font for programming"
-  homepage "http://web.archive.org/web/20190511125027/https://www.rs.tus.ac.jp/yyusa/ricty.html"
-  url "http://web.archive.org/web/20180624203809/http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator-4.1.1.sh"
+  homepage "http://yusa.lab.uec.ac.jp/~yusa/ricty.html"
+  url "http://yusa.lab.uec.ac.jp/~yusa/ricty/ricty_generator-4.1.1.sh"
   sha256 "86bf0fed84ef806690b213798419405d7ca2a1a4bed4f6a28b87c2e2d07ad60d"
-  revision 2
 
   option "with-powerline", "Patch for Powerline"
   option "without-fullwidth", "Disable fullwidth ambiguous characters"
   option "without-visible-space", "Disable visible zenkaku space"
   option "with-patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
-  option "with-oblique", "make oblique fonts"
-
-  deprecated_option "powerline" => "with-powerline"
-  deprecated_option "disable-fullwidth" => "without-fullwidth"
-  deprecated_option "disable-visible-space" => "without-visible-space"
-  deprecated_option "patch-in-place" => "with-patch-in-place"
-  deprecated_option "oblique" => "with-oblique"
 
   depends_on "fontforge" => :build
-
-  resource "oblique_converter" do
-    url "http://web.archive.org/web/20170818071224/http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
-    sha256 "365c7973a02abf3970f09a557f8f93065341885f9e13570fd2e901e530c4864d"
-  end
 
   resource "inconsolataregular" do
     url "https://github.com/google/fonts/raw/f0e90b27b6e567af9378952a37bc8cf29e2d88e9/ofl/inconsolata/Inconsolata-Regular.ttf"
@@ -57,10 +44,6 @@ class Ricty < Formula
     resource("inconsolataregular").stage { buildpath.install Dir["*"] }
     resource("inconsolatabold").stage { buildpath.install Dir["*"] }
 
-    if build.with? "oblique"
-      resource("oblique_converter").stage { buildpath.install Dir["*"] }
-    end
-
     if build.with? "powerline"
       powerline = Powerline.new
       powerline.brew { buildpath.install Dir["*"] }
@@ -74,12 +57,6 @@ class Ricty < Formula
     ricty_args.unshift("-a") if build.without? "fullwidth"
 
     system "sh", "./ricty_generator-#{version}.sh", *ricty_args
-
-    if build.with? "oblique"
-      Dir["Ricty*.ttf"].each do |ttf|
-        system "fontforge", "-script", buildpath/"regular2oblique_converter.pe", ttf
-      end
-    end
 
     if build.with? "powerline"
       powerline_args = []
@@ -112,7 +89,7 @@ __END__
 @@ -79,6 +79,13 @@
  		if bbox[3] > target_bb[3]:
  			target_bb[3] = bbox[3]
- 
+
 +		# Ignore the above calculation and
 +		# manually set the best values for Ricty
 +		target_bb[0]=0
